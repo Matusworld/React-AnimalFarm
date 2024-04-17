@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // Define the Animal interface
 interface Animal {
@@ -12,6 +12,11 @@ interface Animal {
 function App() {
   const [animals, setAnimals] = useState<Animal[]>([]);
 
+  useEffect(() => {
+    const lastQuery = localStorage.getItem("lastQuery");
+    search(lastQuery || "");
+  }, []);
+
   const search = async (q: string) => {
     const response = await fetch(
       "http://localhost:8080?" + new URLSearchParams({ q })
@@ -21,6 +26,8 @@ function App() {
     // print the data to the console
     console.log(data);
     setAnimals(data);
+
+    localStorage.setItem("lastQuery", q);
   };
 
   return (
