@@ -9,7 +9,7 @@ interface Animal {
   age: number;
 }
 
-function App() {
+function useAnimalSearch() {
   const [animals, setAnimals] = useState<Animal[]>([]);
 
   useEffect(() => {
@@ -29,6 +29,12 @@ function App() {
 
     localStorage.setItem("lastQuery", q);
   };
+
+  return { animals, search };
+}
+
+function App() {
+  const { animals, search } = useAnimalSearch();
 
   return (
     <main>
